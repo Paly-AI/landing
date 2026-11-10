@@ -19,15 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+      - name: Assemble static site
+        run: |
+          mkdir _site
+          cp -r index.html get-involved.html speakers.html team.html \
+                styles.css main.js cursor.js assets CNAME robots.txt _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: _site
 
   deploy:
     needs: build
